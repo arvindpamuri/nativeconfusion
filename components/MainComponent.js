@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, View, Platform } from 'react-native';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator,  } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
