@@ -6,8 +6,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import Menu from './MenuComponent';
 import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
-
-const MenuNavigator = createStackNavigator();
+import About from './AboutComponent';
+import Contact from './ContactComponent';
 
 const HeaderOptions = {
     headerStyle: {
@@ -18,6 +18,8 @@ const HeaderOptions = {
         color:'#fff'
     }
 };
+
+const MenuNavigator = createStackNavigator();
 
 function MenuNavigatorScreen() {
     return(
@@ -54,6 +56,38 @@ function HomeNavigatorScreen() {
     );
 }
 
+const AboutNavigator = createStackNavigator();
+
+function AboutNavigatorScreen() {
+    return(
+        <AboutNavigator.Navigator
+            initialRouteName='About Us'
+            screenOptions={HeaderOptions}
+            >
+                <AboutNavigator.Screen
+                    name='About'
+                    component={About}
+                />
+        </AboutNavigator.Navigator>
+    );
+}
+
+const ContactNavigator = createStackNavigator();
+
+function ContactNavigatorScreen() {
+    return(
+        <ContactNavigator.Navigator
+            initialRouteName='Contact Us'
+            screenOptions={HeaderOptions}
+            >
+                <ContactNavigator.Screen
+                    name='Contact Us'
+                    component={Contact}
+                />
+        </ContactNavigator.Navigator>
+    );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -65,7 +99,9 @@ function MainNavigatorDrawer() {
             }}
         >
             <MainNavigator.Screen name='Home' component={HomeNavigatorScreen} />
+            <MainNavigator.Screen name='About Us' component={AboutNavigatorScreen} />
             <MainNavigator.Screen name='Menu' component={MenuNavigatorScreen} />
+            <MainNavigator.Screen name='Contact Us' component={ContactNavigatorScreen} />
         </MainNavigator.Navigator>
     );
 }
