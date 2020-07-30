@@ -4,12 +4,30 @@ import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator,  } from '@react-navigation/stack'
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchLeaders, fetchPromos } from '../redux/ActionCreators';
 
-import Menu from './MenuComponent';
-import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
 import About from './AboutComponent';
+import Menu from './MenuComponent';
 import Contact from './ContactComponent';
+import Dishdetail from './DishdetailComponent';
+
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
+      }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchDishes: () => dispatch(fetchDishes()),
+    fetchComments: () => dispatch(fetchComments()),
+    fetchPromos: () => dispatch(fetchPromos()),
+    fetchLeaders: () => dispatch(fetchLeaders()),
+});
 
 const HeaderOptions = {
     headerStyle: {
@@ -236,6 +254,13 @@ function MainNavigatorDrawer() {
 
 class Main extends Component {
 
+    componentDidMount() {
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchLeaders();
+        this.props.fetchPromos();
+    }
+
     render() {
         return(
             <NavigationContainer>
@@ -269,4 +294,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

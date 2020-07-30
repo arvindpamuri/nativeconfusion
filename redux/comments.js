@@ -1,6 +1,8 @@
 import * as ActionTypes from './ActionTypes';
+import { View } from 'react-native'
 
 export const comments = (state = { 
+
     errMess: null, 
     comments:[]
 }, action) => {
