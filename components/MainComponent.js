@@ -12,6 +12,7 @@ import About from './AboutComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import DishDetail from './DishDetailComponent';
+import Reservation from './ReservationComponent';
 
 const mapStateToProps = state => {
     return {
@@ -180,6 +181,35 @@ function AboutNavigatorScreen() {
     );
 }
 
+const ReservationNavigator = createStackNavigator();
+
+function ReservationNavigatorScreen() {
+    return(
+        <ReservationNavigator.Navigator
+            initialRouteName='Reserve Table'
+            screenOptions={HeaderOptions}
+            >
+                <ReservationNavigator.Screen
+                    name='Reserve Table'
+                    component={Reservation}
+                    options={
+                        ({navigation}) => ({
+                            headerLeft: () => (
+                                <Icon
+                                    name='menu'
+                                    size={24}
+                                    color='white'
+                                    onPress={ () =>
+                                        navigation.toggleDrawer()}
+                                />
+                            )
+                        })
+                    }
+                />
+        </ReservationNavigator.Navigator>
+    );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -241,6 +271,20 @@ function MainNavigatorDrawer() {
                     drawerIcon: ({tintColor}) => (
                         <Icon 
                             name='address-card'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                    />
+                    )
+                }}
+            />
+            <MainNavigator.Screen 
+                name='Reserve Table' 
+                component={ReservationNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor}) => (
+                        <Icon 
+                            name='cutlery'
                             type='font-awesome'
                             size={24}
                             color={tintColor}

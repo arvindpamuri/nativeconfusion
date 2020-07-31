@@ -22,31 +22,31 @@ function RenderItem(props) {
     return(
             <Loading />
     );
-}
-else if (props.errMess) {
-    return(
-        <View> 
-            <Text>{props.erreMess}</Text>
-        </View>
-    );
-}
-else {        
-    if (item != null) {
-        return(
-            <Card
-                featuredTitle={item.name}
-                featuredSubtitle={item.designation}
-                image={{uri: baseUrl + item.image}}>
-                <Text
-                    style={{margin: 10}}>
-                    {item.description}</Text>
-            </Card>
-        );
-    }
-    else {
-        return(<View></View>);
-    }
-}
+  }
+  else if (props.errMess) {
+      return(
+          <View> 
+              <Text>{props.erreMess}</Text>
+          </View>
+      );
+  }
+  else {        
+      if (item != null) {
+          return(
+              <Card
+                  featuredTitle={item.name}
+                  featuredSubtitle={item.designation}
+                  image={{uri: baseUrl + item.image}}>
+                  <Text
+                      style={{margin: 10}}>
+                      {item.description}</Text>
+              </Card>
+          );
+      }
+      else {
+          return(<View></View>);
+      }
+  }
 }
 
 class Home extends Component {
