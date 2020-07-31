@@ -5,29 +5,29 @@ import { createStackNavigator,  } from '@react-navigation/stack'
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { fetchDishes, fetchComments, fetchLeaders, fetchPromos } from '../redux/ActionCreators';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
 import Home from './HomeComponent';
 import About from './AboutComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
-import Dishdetail from './DishdetailComponent';
+import DishDetail from './DishDetailComponent';
 
 const mapStateToProps = state => {
     return {
-        dishes: state.dishes,
-        comments: state.comments,
-        promotions: state.promotions,
-        leaders: state.leaders
-      }
-}
+      dishes: state.dishes,
+      comments: state.comments,
+      promotions: state.promotions,
+      leaders: state.leaders
+    }
+  }
 
 const mapDispatchToProps = dispatch => ({
     fetchDishes: () => dispatch(fetchDishes()),
     fetchComments: () => dispatch(fetchComments()),
     fetchPromos: () => dispatch(fetchPromos()),
     fetchLeaders: () => dispatch(fetchLeaders()),
-});
+})
 
 const HeaderOptions = {
     headerStyle: {
@@ -85,8 +85,8 @@ function MenuNavigatorScreen() {
                 }
             />
             <MenuNavigator.Screen
-                name='Dishdetail'
-                component={Dishdetail}
+                name='DishDetail'
+                component={DishDetail}
                 options={{ headerTitle: 'Dish Detail'}}
             />
         </MenuNavigator.Navigator>
@@ -257,8 +257,8 @@ class Main extends Component {
     componentDidMount() {
         this.props.fetchDishes();
         this.props.fetchComments();
-        this.props.fetchLeaders();
         this.props.fetchPromos();
+        this.props.fetchLeaders();
     }
 
     render() {

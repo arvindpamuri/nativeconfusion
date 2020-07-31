@@ -3,17 +3,21 @@ import { View, Text } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
       dishes: state.dishes,
-      comments: state.comments
+      comments: state.comments,
+      favorites: state.favorites
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    postFavorite: (dishId) => dispatch(postFavorite(dishId))
+})
 
 function RenderDish(props) {
 
@@ -31,10 +35,10 @@ function RenderDish(props) {
                 <Icon
                     raised
                     reverse
-                    name={props.favourite ? 'heart' : 'heart-o'}
+                    name={props.favorite ? 'heart' : 'heart-o'}
                     type='font-awesome'
                     color='#f50'
-                    onPress={() => props.favourite ? console.log('already favourite') : props.onPress()}
+                    onPress={() => props.favorite ? console.log('already favourite') : props.onPress()}
                     />
             </Card>
         );
@@ -69,18 +73,10 @@ function RenderComments(props) {
     );
 }
 
-class Dishdetail extends Component {
+class DishDetail extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            favourites: []
-        };
-    }
-
-    markFavourite(dishId) {
-        this.setState({ favourites: this.state.favourites.concat(dishId)})
+    markFavorite(dishId) {
+        this.props.postFavorite(dishId);
     }
 
     render() {
@@ -90,8 +86,8 @@ class Dishdetail extends Component {
         return (
             <ScrollView>
                 <RenderDish dish={this.props.dishes.dishes[+dishId]}
-                    favorite={this.state.favourites.some(el => el === dishId)}
-                    onPress={() => this.markFavourite(dishId)} 
+                            favorite={this.props.favorites.some(el => el === dishId)}                    
+                            onPress={() => this.markFavorite(dishId)} 
                     />
                 <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
             </ScrollView>
@@ -99,4 +95,4 @@ class Dishdetail extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Dishdetail);
+export default connect(mapStateToProps, mapDispatchToProps)(DishDetail);
