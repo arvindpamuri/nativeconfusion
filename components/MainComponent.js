@@ -13,6 +13,7 @@ import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import DishDetail from './DishDetailComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './favoriteComponent';
 
 const mapStateToProps = state => {
     return {
@@ -210,6 +211,40 @@ function ReservationNavigatorScreen() {
     );
 }
 
+const FavoritesNavigator = createStackNavigator();
+
+function FavoritesNavigatorScreen() {
+    return(
+        <FavoritesNavigator.Navigator
+            initialRouteName='My Favorites'
+            screenOptions={HeaderOptions}
+            >
+                <FavoritesNavigator.Screen
+                    name='My Favorites'
+                    component={Favorites}
+                    options={
+                        ({navigation}) => ({
+                            headerLeft: () => (
+                                <Icon
+                                    name='menu'
+                                    size={24}
+                                    color='white'
+                                    onPress={ () =>
+                                        navigation.toggleDrawer()}
+                                />
+                            )
+                        })
+                    }
+                />
+                <FavoritesNavigator.Screen
+                    name='DishDetail'
+                    component={DishDetail}
+                    options={{ headerTitle: 'Dish Detail'}}
+                />
+        </FavoritesNavigator.Navigator>
+    );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -271,6 +306,20 @@ function MainNavigatorDrawer() {
                     drawerIcon: ({tintColor}) => (
                         <Icon 
                             name='address-card'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                    />
+                    )
+                }}
+            />
+            <MainNavigator.Screen 
+                name='My Favorites' 
+                component={FavoritesNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor}) => (
+                        <Icon 
+                            name='heart'
                             type='font-awesome'
                             size={24}
                             color={tintColor}
