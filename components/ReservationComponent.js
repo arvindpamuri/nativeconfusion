@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Alert } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Alert, Vibration, Platform } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 class Reservation extends Component {
 
@@ -26,7 +28,11 @@ class Reservation extends Component {
           onPress: () => this.resetForm(),
           style: "cancel"
         },
-        { text: "OK", onPress: () => this.resetForm() }
+        { text: "OK", onPress: () =>{ 
+            this.presentLocalNotification(this.state.date);
+            this.resetForm(); 
+            } 
+        }
       ],
       { cancelable: false }
     );
@@ -45,6 +51,34 @@ class Reservation extends Component {
             smoking: false,
             date: '',
             showModal: false
+        });
+    }
+
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if ( permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if ( permission.status !== 'granted') {
+                Alert.alert('Permission not granted for notifications');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for' + date + 'requested',
+            ios: {
+                sound: true
+            },
+            android: {
+                sound: true,
+                Vibrate: true,
+                color: '#512D8'
+            }
         });
     }
 
