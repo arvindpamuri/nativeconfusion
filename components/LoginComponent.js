@@ -151,6 +151,20 @@ class RegisterTab extends Component {
         }
     }
 
+    getImageFromGallery = async () => {
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        if (cameraRollPermission.status == 'granted') {
+            let retrievedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4, 3],
+            });
+            if(!retrievedImage.cancelled) {
+                this.processImage(retrievedImage.uri);
+            }
+        }
+    }
+
     processImage = async (imageUri) => {
         let processedImage = await ImageManipulator.manipulateAsync(
             imageUri,
@@ -191,10 +205,18 @@ class RegisterTab extends Component {
                         loadingIndicatorSource={require('./images/logo.png')}
                         style={styles.image} 
                         />
-                    <Button
-                        title="Camera"
-                        onPress={this.getImageFromCamera}
-                        />
+                    <View style={styles.buttons}>
+                        <Button style={styles.buttons}
+                            title="Camera"
+                            onPress={this.getImageFromCamera}
+                            />
+                    </View>
+                    <View style={styles.buttons}>
+                        <Button style={styles.buttons} 
+                            title="Gallery"
+                            onPress={this.getImageFromGallery}
+                            />
+                    </View>
                 </View>
                 <Input
                     placeholder="Username"
@@ -316,12 +338,15 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
-        margin: 20
+        margin: 40
     },
     image: {
       margin: 10,
       width: 80,
       height: 60
+    },
+    buttons: {
+        margin: 20
     },
     formInput: {
         margin: 20
